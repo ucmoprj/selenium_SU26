@@ -99,6 +99,10 @@ import static org.junit.jupiter.api.Assertions.*;
  *   TASK 4 — After all rows are processed, assert that every test
  *            case has Status = PASS (expected matches actual).
  *
+ *   TASK 5 — Implement performLogin(username, password) using Selenium
+ *            Navigate to /logout then /login, fill the form, click submit,
+ *            wait for the flash message, and return "success" or "failure".
+ *
  * ============================================================
  * Test site : https://the-internet.herokuapp.com/login
  * Valid login: username=tomsmith  password=SuperSecretPassword!
