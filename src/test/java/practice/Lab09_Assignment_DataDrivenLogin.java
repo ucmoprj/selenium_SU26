@@ -66,8 +66,25 @@ import static org.junit.jupiter.api.Assertions.*;
  *   TC010  Both username and password empty          → failure
  *
  * ============================================================
+ * *** IMPORTANT — YOU MUST REPLACE THE TEST DATA ***
+ * ============================================================
+ *
+ *   The createTestDataFile() method contains example test cases.
+ *   You MUST replace ALL rows with your OWN test cases before submitting.
+ *   Using the provided example data as-is will result in a grade of zero.
+ *
+ *   Your 10 test cases must:
+ *     - Be designed using Equivalence Partitioning and Boundary Value Analysis
+ *     - Cover the username and password rules defined above
+ *     - Include at least one valid (success) case and multiple invalid (failure) cases
+ *     - Have a correct ExpectedResult ("success" or "failure") for each row
+ *
+ * ============================================================
  * YOUR TASKS
  * ============================================================
+ *
+ *   TASK 0 — Replace the example test data in createTestDataFile()
+ *            with your own 10 test cases based on EP and BVA rules above.
  *
  *   TASK 1 — Read each test case row from the Excel file (read-only)
  *            Columns: TestCaseID | Description | Username | Password | ExpectedResult
@@ -96,8 +113,16 @@ public class Lab09_Assignment_DataDrivenLogin {
     WebDriver driver;
 
     // ============================================================
-    // PROVIDED: Generates the Excel test data file automatically.
-    // You do NOT need to modify this method.
+    // TASK 0 — Replace the example data below with YOUR OWN test cases.
+    //
+    // Rules reminder:
+    //   Username : 4-12 chars, letters/numbers only, must start with a letter
+    //   Password : 6-10 chars, at least one uppercase letter
+    //
+    // Keep the same column structure:
+    //   { "TCxxx", "description", "username", "password", "success" or "failure" }
+    //
+    // Do NOT change the header row or the file path.
     // ============================================================
     @BeforeAll
     static void createTestDataFile() throws IOException {
@@ -114,7 +139,7 @@ public class Lab09_Assignment_DataDrivenLogin {
                 header.createCell(i).setCellValue(headers[i]);
             }
 
-            // Test data rows — do not modify these values
+            // *** REPLACE THESE ROWS WITH YOUR OWN TEST CASES (TASK 0) ***
             Object[][] data = {
                 {"TC001", "Valid credentials",                    "tomsmith",        "SuperSecretPassword!", "success"},
                 {"TC002", "Wrong password (valid format)",        "tomsmith",        "Wrong1pw",             "failure"},
