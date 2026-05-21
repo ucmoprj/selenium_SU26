@@ -90,7 +90,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *            Columns: TestCaseID | Description | Username | Password | ExpectedResult
  *
  *   TASK 2 — For each row, run the login test using Selenium
- *            Use the helper method performLogin() provided below.
+ *            Call performLogin(username, password) that YOU implement in TASK 5.
  *
  *   TASK 3 — Write each result line to RESULT_TXT_FILE
  *            Format: [TC001] description | expected=success actual=success | PASS | timestamp
@@ -223,7 +223,7 @@ public class Lab09_Assignment_DataDrivenLogin {
         //   col 3 = Password       (String)
         //   col 4 = ExpectedResult (String)  "success" or "failure"
         //
-        // Then call: String actual = performLogin(username, password);
+        // Then call: String actual = performLogin(username, password);  ← you implement this in TASK 5
         // --------------------------------------------------------
         // TODO: Loop through rows and run performLogin() for each
 
@@ -256,28 +256,30 @@ public class Lab09_Assignment_DataDrivenLogin {
     }
 
     // ============================================================
-    // PROVIDED HELPER — performs one login attempt and returns
-    // "success" or "failure" based on the flash message.
-    // You do NOT need to modify this method.
+    // TASK 5 — Implement this method using Selenium
+    //
+    // This method must:
+    //   1. Navigate to /logout to clear any existing session, then to /login
+    //      Hint: driver.get("https://the-internet.herokuapp.com/...")
+    //
+    //   2. Find the username field and type the given username
+    //      Hint: driver.findElement(By.id("username")).sendKeys(username)
+    //
+    //   3. Find the password field and type the given password
+    //
+    //   4. Click the submit button
+    //      Hint: driver.findElement(By.cssSelector("button[type='submit']")).click()
+    //
+    //   5. Wait for the flash message to appear (use WebDriverWait + ExpectedConditions)
+    //      Hint: new WebDriverWait(driver, Duration.ofSeconds(10))
+    //            .until(ExpectedConditions.visibilityOfElementLocated(By.id("flash")))
+    //
+    //   6. Return "success" if the flash message contains "You logged into a secure area!"
+    //      Otherwise return "failure"
+    //      Hint: flash.getText().contains("...") ? "success" : "failure"
     // ============================================================
     String performLogin(String username, String password) {
-        // Navigate to /logout first to invalidate any active server-side session,
-        // then go to /login — more reliable than deleteAllCookies() alone
-        driver.get("https://the-internet.herokuapp.com/logout");
-        driver.get("https://the-internet.herokuapp.com/login");
-
-        driver.findElement(By.id("username")).clear();
-        driver.findElement(By.id("username")).sendKeys(username);
-        driver.findElement(By.id("password")).clear();
-        driver.findElement(By.id("password")).sendKeys(password);
-        driver.findElement(By.cssSelector("button[type='submit']")).click();
-
-        // 10s timeout — Heroku free tier can be slow
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement flash = wait.until(
-            ExpectedConditions.visibilityOfElementLocated(By.id("flash"))
-        );
-
-        return flash.getText().contains("You logged into a secure area!") ? "success" : "failure";
+        // TODO: implement using Selenium (see hints above)
+        return null;
     }
 }
