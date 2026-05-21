@@ -5,5 +5,5 @@ target/
 .project
 .settings/
 
-# Instructor solutions — never push to GitHub
-solutions/
+# Instructor solution files — never push to GitHub
+src/test/java/practice/*_Solution_*.java
