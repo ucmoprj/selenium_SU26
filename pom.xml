@@ -79,6 +79,18 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- ============================================================
+             Apache POI — Excel read/write library
+             poi-ooxml supports the modern .xlsx format (Office Open XML).
+             Used in Lab09 for data-driven testing with Excel test cases.
+             ============================================================ -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.5</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -1,0 +1,251 @@
+package practice;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.io.*;
+import java.nio.file.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * Lab 09 - Assignment: Data-Driven Login Testing
+ *
+ * ============================================================
+ * BACKGROUND: Test Case Design Rules
+ * ============================================================
+ *
+ * This assignment uses two test design techniques:
+ *
+ *   1. Equivalence Partitioning (EP)
+ *      Divide input data into groups (partitions) where all values
+ *      in the same group are expected to behave the same way.
+ *      Test one value from each partition instead of testing every value.
+ *
+ *      Username partitions:
+ *        - Valid   : 4-12 chars, letters/numbers only, starts with a letter
+ *        - Invalid : too short (<4), too long (>12), starts with number,
+ *                    contains space, contains special characters
+ *
+ *      Password partitions:
+ *        - Valid   : 6-10 chars, contains at least one uppercase letter
+ *        - Invalid : too short (<6), too long (>10), no uppercase letter
+ *
+ *   2. Boundary Value Analysis (BVA)
+ *      Errors tend to occur at the edges of input ranges.
+ *      Test values AT and just OUTSIDE the boundaries.
+ *
+ *      Username length boundary: 3 (invalid) | 4 (valid) ... 12 (valid) | 13 (invalid)
+ *      Password length boundary: 5 (invalid) | 6 (valid) ... 10 (valid) | 11 (invalid)
+ *
+ * ============================================================
+ * TEST DATA (login_test_cases.xlsx — auto-generated at startup)
+ * ============================================================
+ *
+ *   TC001  Valid credentials                          → success
+ *   TC002  Wrong password (valid format)              → failure
+ *   TC003  Wrong username (valid format)              → failure
+ *   TC004  Username too short — boundary min-1 (3)   → failure
+ *   TC005  Username too long  — boundary max+1 (13)  → failure
+ *   TC006  Username starts with a number             → failure
+ *   TC007  Username contains a space                 → failure
+ *   TC008  Password too short — boundary min-1 (5)   → failure
+ *   TC009  Password has no uppercase letter          → failure
+ *   TC010  Both username and password empty          → failure
+ *
+ * ============================================================
+ * YOUR TASKS
+ * ============================================================
+ *
+ *   TASK 1 — Read each test case row from the Excel file
+ *            Columns: TestCaseID | Description | Username | Password | ExpectedResult
+ *
+ *   TASK 2 — For each row, run the login test using Selenium
+ *            Use the helper method performLogin() provided below.
+ *
+ *   TASK 3 — Write the result back to the Excel file
+ *            Add columns: ActualResult | Status (PASS/FAIL) | Timestamp
+ *
+ *   TASK 4 — After all rows are processed, assert that every test
+ *            case has Status = PASS (expected matches actual).
+ *
+ * ============================================================
+ * Test site : https://the-internet.herokuapp.com/login
+ * Valid login: username=tomsmith  password=SuperSecretPassword!
+ * ============================================================
+ */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+public class Lab09_Assignment_DataDrivenLogin {
+
+    static final String TEST_DATA_FILE = "target/testdata/login_test_cases.xlsx";
+
+    WebDriver driver;
+
+    // ============================================================
+    // PROVIDED: Generates the Excel test data file automatically.
+    // You do NOT need to modify this method.
+    // ============================================================
+    @BeforeAll
+    static void createTestDataFile() throws IOException {
+        Path path = Paths.get(TEST_DATA_FILE);
+        Files.createDirectories(path.getParent());
+
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("TestCases");
+
+            // Header row
+            Row header = sheet.createRow(0);
+            String[] headers = {"TestCaseID", "Description", "Username", "Password", "ExpectedResult"};
+            for (int i = 0; i < headers.length; i++) {
+                header.createCell(i).setCellValue(headers[i]);
+            }
+
+            // Test data rows — do not modify these values
+            Object[][] data = {
+                {"TC001", "Valid credentials",                    "tomsmith",        "SuperSecretPassword!", "success"},
+                {"TC002", "Wrong password (valid format)",        "tomsmith",        "Wrong1pw",             "failure"},
+                {"TC003", "Wrong username (valid format)",        "john1",           "SuperSecretPassword!", "failure"},
+                {"TC004", "Username too short - boundary min-1",  "tom",             "Pass1w",               "failure"},
+                {"TC005", "Username too long - boundary max+1",   "thisusername99",  "Pass1w",               "failure"},
+                {"TC006", "Username starts with a number",        "1tomsmith",       "Pass1w",               "failure"},
+                {"TC007", "Username contains a space",            "tom smith",       "Pass1w",               "failure"},
+                {"TC008", "Password too short - boundary min-1",  "tomsmith",        "Abc1w",                "failure"},
+                {"TC009", "Password has no uppercase letter",     "tomsmith",        "password1",            "failure"},
+                {"TC010", "Both username and password empty",     "",                "",                     "failure"},
+            };
+
+            for (int i = 0; i < data.length; i++) {
+                Row row = sheet.createRow(i + 1);
+                for (int j = 0; j < data[i].length; j++) {
+                    row.createCell(j).setCellValue((String) data[i][j]);
+                }
+            }
+
+            try (FileOutputStream fos = new FileOutputStream(TEST_DATA_FILE)) {
+                workbook.write(fos);
+            }
+        }
+        System.out.println("Test data file created: " + Paths.get(TEST_DATA_FILE).toAbsolutePath());
+    }
+
+    @BeforeEach
+    void setUp() {
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
+    }
+
+    @AfterEach
+    void tearDown() {
+        if (driver != null) driver.quit();
+    }
+
+    // ============================================================
+    // YOUR IMPLEMENTATION GOES HERE
+    // ============================================================
+    @Test
+    @Order(1)
+    void runDataDrivenLoginTests() throws IOException {
+
+        int passCount = 0;
+        int failCount = 0;
+
+        // --------------------------------------------------------
+        // TASK 1 — Open the Excel file and get the sheet
+        //
+        // Hint:
+        //   FileInputStream fis = new FileInputStream(TEST_DATA_FILE);
+        //   Workbook workbook = WorkbookFactory.create(fis);
+        //   Sheet sheet = workbook.getSheet("TestCases");
+        // --------------------------------------------------------
+        // TODO: Open the workbook and get the "TestCases" sheet
+
+
+        // --------------------------------------------------------
+        // TASK 2 — Loop through each test case row (skip row 0 = header)
+        //
+        // Hint: sheet.getLastRowNum() gives you the index of the last row
+        //
+        // For each row, read:
+        //   col 0 = TestCaseID     (String)
+        //   col 1 = Description    (String)
+        //   col 2 = Username       (String)
+        //   col 3 = Password       (String)
+        //   col 4 = ExpectedResult (String)  "success" or "failure"
+        //
+        // Then call: String actual = performLogin(username, password);
+        // --------------------------------------------------------
+        // TODO: Loop through rows and run performLogin() for each
+
+
+        // --------------------------------------------------------
+        // TASK 3 — Write results back to the row
+        //
+        // After calling performLogin(), determine the status:
+        //   String status = actual.equals(expected) ? "PASS" : "FAIL";
+        //
+        // Write to:
+        //   col 5 = ActualResult
+        //   col 6 = Status  (PASS or FAIL)
+        //   col 7 = Timestamp  (use: LocalDateTime.now().format(
+        //               DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+        //
+        // Print each result:
+        //   System.out.printf("[%s] %s | expected=%-7s actual=%-7s → %s%n",
+        //       testCaseId, description, expected, actual, status);
+        // --------------------------------------------------------
+        // TODO: Write ActualResult, Status, Timestamp to each row
+
+
+        // --------------------------------------------------------
+        // TASK 4 — Save the updated workbook to the file
+        //
+        // Hint:
+        //   FileOutputStream fos = new FileOutputStream(TEST_DATA_FILE);
+        //   workbook.write(fos);
+        //   fos.close();
+        //   workbook.close();
+        // --------------------------------------------------------
+        // TODO: Save the workbook
+
+
+        // --------------------------------------------------------
+        // TASK 5 — Assert all test cases passed
+        //
+        // Hint: use passCount and failCount variables above
+        // --------------------------------------------------------
+        // TODO: Print summary and assert failCount == 0
+    }
+
+    // ============================================================
+    // PROVIDED HELPER — performs one login attempt and returns
+    // "success" or "failure" based on the flash message.
+    // You do NOT need to modify this method.
+    // ============================================================
+    String performLogin(String username, String password) {
+        driver.get("https://the-internet.herokuapp.com/login");
+
+        driver.findElement(By.id("username")).clear();
+        driver.findElement(By.id("username")).sendKeys(username);
+        driver.findElement(By.id("password")).clear();
+        driver.findElement(By.id("password")).sendKeys(password);
+        driver.findElement(By.cssSelector("button[type='submit']")).click();
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebElement flash = wait.until(
+            ExpectedConditions.visibilityOfElementLocated(By.id("flash"))
+        );
+
+        return flash.getText().contains("You logged into a secure area!") ? "success" : "failure";
+    }
+}

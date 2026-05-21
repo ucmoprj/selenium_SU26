@@ -4,3 +4,6 @@ target/
 .classpath
 .project
 .settings/
+
+# Instructor solutions — never push to GitHub
+solutions/
