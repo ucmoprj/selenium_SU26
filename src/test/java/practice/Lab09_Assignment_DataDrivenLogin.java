@@ -75,10 +75,13 @@ import static org.junit.jupiter.api.Assertions.*;
  *   TASK 2 — For each row, run the login test using Selenium
  *            Use the helper method performLogin() provided below.
  *
- *   TASK 3 — Write the result back to the Excel file
- *            Add columns: ActualResult | Status (PASS/FAIL) | Timestamp
+ *   TASK 3 — Write results to both Excel and a txt file (RESULT_TXT_FILE)
+ *            Excel columns : ActualResult | Status (PASS/FAIL) | Timestamp
+ *            txt file      : one result line per test case + summary at the end
  *
- *   TASK 4 — After all rows are processed, assert that every test
+ *   TASK 4 — Save the updated Excel workbook
+ *
+ *   TASK 5 — After all rows are processed, assert that every test
  *            case has Status = PASS (expected matches actual).
  *
  * ============================================================
