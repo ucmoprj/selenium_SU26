@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -142,7 +143,16 @@ public class Lab09_Assignment_DataDrivenLogin {
     @BeforeEach
     void setUp() {
         WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+
+        // Disable Chrome's password save/change popup — it interrupts automated tests
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--password-store=basic");
+        options.setExperimentalOption("prefs", java.util.Map.of(
+            "credentials_enable_service", false,
+            "profile.password_manager_enabled", false
+        ));
+
+        driver = new ChromeDriver(options);
     }
 
     @AfterEach
