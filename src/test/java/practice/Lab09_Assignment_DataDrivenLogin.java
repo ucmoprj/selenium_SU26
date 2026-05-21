@@ -145,12 +145,15 @@ public class Lab09_Assignment_DataDrivenLogin {
     void setUp() {
         WebDriverManager.chromedriver().setup();
 
-        // Disable Chrome's password save/change popup — it interrupts automated tests
+        // Disable Chrome's password manager and all related popups
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--password-store=basic");
+        options.addArguments("--disable-features=PasswordCheck,PasswordManager");
+        options.addArguments("--incognito"); // incognito mode never saves passwords
         options.setExperimentalOption("prefs", java.util.Map.of(
             "credentials_enable_service", false,
-            "profile.password_manager_enabled", false
+            "profile.password_manager_enabled", false,
+            "profile.password_manager_leak_detection", false
         ));
 
         driver = new ChromeDriver(options);
