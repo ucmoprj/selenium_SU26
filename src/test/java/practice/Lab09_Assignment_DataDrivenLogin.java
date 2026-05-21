@@ -69,19 +69,17 @@ import static org.junit.jupiter.api.Assertions.*;
  * YOUR TASKS
  * ============================================================
  *
- *   TASK 1 — Read each test case row from the Excel file
+ *   TASK 1 — Read each test case row from the Excel file (read-only)
  *            Columns: TestCaseID | Description | Username | Password | ExpectedResult
  *
  *   TASK 2 — For each row, run the login test using Selenium
  *            Use the helper method performLogin() provided below.
  *
- *   TASK 3 — Write results to both Excel and a txt file (RESULT_TXT_FILE)
- *            Excel columns : ActualResult | Status (PASS/FAIL) | Timestamp
- *            txt file      : one result line per test case + summary at the end
+ *   TASK 3 — Write each result line to RESULT_TXT_FILE
+ *            Format: [TC001] description | expected=success actual=success | PASS | timestamp
+ *            Open BufferedWriter before the loop, write summary at the end, then close.
  *
- *   TASK 4 — Save the updated Excel workbook
- *
- *   TASK 5 — After all rows are processed, assert that every test
+ *   TASK 4 — After all rows are processed, assert that every test
  *            case has Status = PASS (expected matches actual).
  *
  * ============================================================
@@ -206,46 +204,28 @@ public class Lab09_Assignment_DataDrivenLogin {
 
 
         // --------------------------------------------------------
-        // TASK 3 — Write results back to Excel and to a txt file
+        // TASK 3 — Write each result line to the txt file
         //
-        // After calling performLogin(), determine the status:
+        // Determine the status:
         //   String status = actual.equals(expected) ? "PASS" : "FAIL";
         //
-        // Write to Excel row:
-        //   col 5 = ActualResult
-        //   col 6 = Status  (PASS or FAIL)
-        //   col 7 = Timestamp  (use: LocalDateTime.now().format(
-        //               DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+        // Open a BufferedWriter for RESULT_TXT_FILE before the loop.
+        // Inside the loop, write one line per test case:
+        //   [TC001] Valid credentials ... | expected=success actual=success | PASS | 2026-05-21 11:30:45
+        // After the loop, write a summary line and close the writer.
         //
-        // Write to txt file (RESULT_TXT_FILE):
-        //   Use BufferedWriter — open it before the loop, close it after.
-        //   Write a header line, one result line per test case, and a summary.
-        //   Example result line:
-        //     [TC001] Valid credentials ... | expected=success actual=success | PASS | 2026-05-21 11:30:45
-        //
-        // Print each result to console too:
-        //   System.out.printf("[%s] %s | expected=%-7s actual=%-7s | %s%n",
+        // Also print each result to console:
+        //   System.out.printf("[%s] %-42s | expected=%-7s actual=%-7s | %s%n",
         //       testCaseId, description, expected, actual, status);
         // --------------------------------------------------------
-        // TODO: Write ActualResult, Status, Timestamp to Excel row and txt file
+        // TODO: Write results to txt file and console
 
 
         // --------------------------------------------------------
-        // TASK 4 — Save the updated workbook to the file
-        //
-        // Hint:
-        //   FileOutputStream fos = new FileOutputStream(TEST_DATA_FILE);
-        //   workbook.write(fos);
-        //   fos.close();
-        //   workbook.close();
-        // --------------------------------------------------------
-        // TODO: Save the workbook
-
-
-        // --------------------------------------------------------
-        // TASK 5 — Assert all test cases passed
+        // TASK 4 — Assert all test cases passed
         //
         // Hint: use passCount and failCount variables above
+        //   assertEquals(0, failCount, failCount + " test case(s) failed");
         // --------------------------------------------------------
         // TODO: Print summary and assert failCount == 0
     }
