@@ -89,7 +89,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Lab09_Assignment_DataDrivenLogin {
 
-    static final String TEST_DATA_FILE = "target/testdata/login_test_cases.xlsx";
+    static final String TEST_DATA_FILE  = "target/testdata/login_test_cases.xlsx";
+    static final String RESULT_TXT_FILE = "target/testdata/login_test_results.txt";
 
     WebDriver driver;
 
@@ -199,22 +200,28 @@ public class Lab09_Assignment_DataDrivenLogin {
 
 
         // --------------------------------------------------------
-        // TASK 3 — Write results back to the row
+        // TASK 3 — Write results back to Excel and to a txt file
         //
         // After calling performLogin(), determine the status:
         //   String status = actual.equals(expected) ? "PASS" : "FAIL";
         //
-        // Write to:
+        // Write to Excel row:
         //   col 5 = ActualResult
         //   col 6 = Status  (PASS or FAIL)
         //   col 7 = Timestamp  (use: LocalDateTime.now().format(
         //               DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
         //
-        // Print each result:
-        //   System.out.printf("[%s] %s | expected=%-7s actual=%-7s → %s%n",
+        // Write to txt file (RESULT_TXT_FILE):
+        //   Use BufferedWriter — open it before the loop, close it after.
+        //   Write a header line, one result line per test case, and a summary.
+        //   Example result line:
+        //     [TC001] Valid credentials ... | expected=success actual=success | PASS | 2026-05-21 11:30:45
+        //
+        // Print each result to console too:
+        //   System.out.printf("[%s] %s | expected=%-7s actual=%-7s | %s%n",
         //       testCaseId, description, expected, actual, status);
         // --------------------------------------------------------
-        // TODO: Write ActualResult, Status, Timestamp to each row
+        // TODO: Write ActualResult, Status, Timestamp to Excel row and txt file
 
 
         // --------------------------------------------------------
@@ -243,6 +250,9 @@ public class Lab09_Assignment_DataDrivenLogin {
     // You do NOT need to modify this method.
     // ============================================================
     String performLogin(String username, String password) {
+        // Clear cookies so a previous successful login session does not
+        // redirect away from /login on the next attempt
+        driver.manage().deleteAllCookies();
         driver.get("https://the-internet.herokuapp.com/login");
 
         driver.findElement(By.id("username")).clear();
@@ -251,7 +261,8 @@ public class Lab09_Assignment_DataDrivenLogin {
         driver.findElement(By.id("password")).sendKeys(password);
         driver.findElement(By.cssSelector("button[type='submit']")).click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        // 10s timeout — Heroku free tier can be slow
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement flash = wait.until(
             ExpectedConditions.visibilityOfElementLocated(By.id("flash"))
         );
