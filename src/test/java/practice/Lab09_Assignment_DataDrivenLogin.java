@@ -250,9 +250,9 @@ public class Lab09_Assignment_DataDrivenLogin {
     // You do NOT need to modify this method.
     // ============================================================
     String performLogin(String username, String password) {
-        // Clear cookies so a previous successful login session does not
-        // redirect away from /login on the next attempt
-        driver.manage().deleteAllCookies();
+        // Navigate to /logout first to invalidate any active server-side session,
+        // then go to /login — more reliable than deleteAllCookies() alone
+        driver.get("https://the-internet.herokuapp.com/logout");
         driver.get("https://the-internet.herokuapp.com/login");
 
         driver.findElement(By.id("username")).clear();
