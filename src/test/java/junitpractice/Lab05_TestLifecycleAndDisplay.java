@@ -8,11 +8,11 @@ import static org.junit.jupiter.api.Assertions.*;
  * Lab 05 - Test Lifecycle Control & Display
  *
  * Learning Objectives:
- *   1. @TestMethodOrder â€” control the order in which tests run
- *   2. @DisplayName     â€” human-readable names in test reports
- *   3. @Disabled        â€” skip a test with a reason
- *   4. @Tag             â€” group tests by category (run subsets with -Dgroups=...)
- *   5. @TestInstance    â€” share state across tests without static fields
+ *   1. @TestMethodOrder --" control the order in which tests run
+ *   2. @DisplayName     --" human-readable names in test reports
+ *   3. @Disabled        --" skip a test with a reason
+ *   4. @Tag             --" group tests by category (run subsets with -Dgroups=...)
+ *   5. @TestInstance    --" share state across tests without static fields
  *
  * Instructions:
  *   - Uncomment one STEP block at a time, then run the test
@@ -32,7 +32,7 @@ public class Lab05_TestLifecycleAndDisplay {
     }
 
     // ============================================================
-    // STEP 1 â€” @Order
+    // STEP 1 --" @Order
     //
     // @Order(n) controls execution order when @TestMethodOrder
     // is set to OrderAnnotation. Lower numbers run first.
@@ -49,7 +49,7 @@ public class Lab05_TestLifecycleAndDisplay {
 
     @Test
     @Order(2)
-    @DisplayName("Step 2: Deposit 500 â€” balance becomes 1500")
+    @DisplayName("Step 2: Deposit 500 --" balance becomes 1500")
     void depositIncreasesBalance() {
         // account.deposit(500.0);
         // assertEquals(1500.0, account.getBalance());
@@ -57,14 +57,14 @@ public class Lab05_TestLifecycleAndDisplay {
 
     @Test
     @Order(3)
-    @DisplayName("Step 3: Withdraw 200 â€” balance becomes 800")
+    @DisplayName("Step 3: Withdraw 200 --" balance becomes 800")
     void withdrawDecreasesBalance() {
         // account.withdraw(200.0);
         // assertEquals(800.0, account.getBalance());
     }
 
     // ============================================================
-    // STEP 2 â€” @Disabled with a reason
+    // STEP 2 --" @Disabled with a reason
     //
     // Always explain WHY the test is disabled.
     // A disabled test with no reason is a maintenance hazard.
@@ -80,7 +80,7 @@ public class Lab05_TestLifecycleAndDisplay {
     }
 
     // ============================================================
-    // STEP 3 â€” @Tag
+    // STEP 3 --" @Tag
     //
     // Tags let you run a subset of tests.
     // Example: mvn test -Dgroups=fast   runs only @Tag("fast") tests.
@@ -108,7 +108,7 @@ public class Lab05_TestLifecycleAndDisplay {
     }
 
     // ============================================================
-    // STEP 4 â€” @TestInstance(PER_CLASS)
+    // STEP 4 --" @TestInstance(PER_CLASS)
     //
     // By default JUnit creates a NEW instance of the test class
     // before each @Test (PER_METHOD). This means @BeforeAll / @AfterAll

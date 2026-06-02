@@ -11,13 +11,13 @@ import static org.junit.jupiter.api.Assumptions.*;
  *
  * Learning Objectives:
  *   1. Understand the difference between a failed assertion and a failed assumption
- *   2. Use assumeTrue  â€” skip the test if a condition is false
- *   3. Use assumeFalse â€” skip the test if a condition is true
- *   4. Use assumingThat â€” run assertions only when a condition holds
+ *   2. Use assumeTrue  --" skip the test if a condition is false
+ *   3. Use assumeFalse --" skip the test if a condition is true
+ *   4. Use assumingThat --" run assertions only when a condition holds
  *
  * Key concept:
- *   - Assertion failure  â†’ test is MARKED AS FAILED
- *   - Assumption failure â†’ test is MARKED AS SKIPPED (aborted)
+ *   - Assertion failure  --' test is MARKED AS FAILED
+ *   - Assumption failure --' test is MARKED AS SKIPPED (aborted)
  *
  * Use assumptions when a test only makes sense in a specific environment
  * (e.g., only on Windows, only when a feature flag is on, only in CI).
@@ -41,11 +41,11 @@ public class Lab07_Assumptions {
     }
 
     // ============================================================
-    // STEP 1 â€” assumeTrue
+    // STEP 1 --" assumeTrue
     //
     // assumeTrue(condition)
-    //   If condition is FALSE â†’ test is ABORTED (skipped), not failed.
-    //   If condition is TRUE  â†’ test continues normally.
+    //   If condition is FALSE --' test is ABORTED (skipped), not failed.
+    //   If condition is TRUE  --' test continues normally.
     //
     // Example use: skip a test unless running on a specific OS.
     // ============================================================
@@ -60,24 +60,24 @@ public class Lab07_Assumptions {
     }
 
     // ============================================================
-    // STEP 2 â€” assumeFalse
+    // STEP 2 --" assumeFalse
     //
     // assumeFalse(condition)
-    //   If condition is TRUE  â†’ test is ABORTED (skipped).
-    //   If condition is FALSE â†’ test continues normally.
+    //   If condition is TRUE  --' test is ABORTED (skipped).
+    //   If condition is FALSE --' test continues normally.
     //
-    // Opposite of assumeTrue â€” use it when you want to skip on a specific condition.
+    // Opposite of assumeTrue --" use it when you want to skip on a specific condition.
     // ============================================================
     @Test
     void skipInCIEnvironment() {
         // boolean isCI = "true".equalsIgnoreCase(System.getenv("CI"));
         // assumeFalse(isCI, "Skipped: this test is not intended for CI");
-        // System.out.println("Running locally â€” performing extended checks");
+        // System.out.println("Running locally --" performing extended checks");
         // assertEquals(true, stringUtils.isPalindrome("racecar"));
     }
 
     // ============================================================
-    // STEP 3 â€” assumeTrue with a meaningful message
+    // STEP 3 --" assumeTrue with a meaningful message
     //
     // The second argument is shown in the test report when skipped.
     // Always provide a reason so teammates know why a test was skipped.
@@ -93,11 +93,11 @@ public class Lab07_Assumptions {
     }
 
     // ============================================================
-    // STEP 4 â€” assumingThat
+    // STEP 4 --" assumingThat
     //
     // assumingThat(condition, executable)
-    //   If condition is TRUE  â†’ runs the executable (assertions inside).
-    //   If condition is FALSE â†’ skips ONLY the executable, test continues.
+    //   If condition is TRUE  --' runs the executable (assertions inside).
+    //   If condition is FALSE --' skips ONLY the executable, test continues.
     //
     // Unlike assumeTrue, assumingThat does NOT abort the test.
     // Code after assumingThat always runs regardless of the condition.
@@ -121,11 +121,11 @@ public class Lab07_Assumptions {
     }
 
     // ============================================================
-    // STEP 5 â€” Assumption vs Assertion: what's the difference?
+    // STEP 5 --" Assumption vs Assertion: what's the difference?
     //
     // Run this test to see the difference in the test report:
-    //   - assumeTrue(false) â†’ ABORTED  (yellow/skipped in most IDEs)
-    //   - assertEquals(1,2) â†’ FAILED   (red in most IDEs)
+    //   - assumeTrue(false) --' ABORTED  (yellow/skipped in most IDEs)
+    //   - assertEquals(1,2) --' FAILED   (red in most IDEs)
     //
     // Aborted tests do NOT count as failures in CI pipelines.
     // ============================================================
@@ -133,11 +133,11 @@ public class Lab07_Assumptions {
     void demonstrateAbortedVsFailed() {
         // Uncomment ONE of the following lines at a time:
 
-        // This aborts (skips) the test â€” NOT a failure:
-        // assumeTrue(false, "This assumption is false â€” test is aborted");
+        // This aborts (skips) the test --" NOT a failure:
+        // assumeTrue(false, "This assumption is false --" test is aborted");
 
-        // This fails the test â€” IS a failure:
-        // assertEquals(1, 2, "This assertion is wrong â€” test is failed");
+        // This fails the test --" IS a failure:
+        // assertEquals(1, 2, "This assertion is wrong --" test is failed");
     }
 }
 

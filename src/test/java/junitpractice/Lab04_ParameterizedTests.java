@@ -38,9 +38,9 @@ public class Lab04_ParameterizedTests {
     }
 
     // ============================================================
-    // STEP 1 â€” @ValueSource
+    // STEP 1 --" @ValueSource
     //
-    // Provides a single array of values â€” each runs the test once.
+    // Provides a single array of values --" each runs the test once.
     // The parameter type must match the @ValueSource type (strings, ints, etc.).
     //
     // Use case: check that several valid inputs all pass.
@@ -53,7 +53,7 @@ public class Lab04_ParameterizedTests {
     }
 
     // ============================================================
-    // STEP 2 â€” @ValueSource with invalid inputs
+    // STEP 2 --" @ValueSource with invalid inputs
     //
     // Use case: check that several invalid inputs all fail.
     // ============================================================
@@ -65,7 +65,7 @@ public class Lab04_ParameterizedTests {
     }
 
     // ============================================================
-    // STEP 3 â€” @CsvSource
+    // STEP 3 --" @CsvSource
     //
     // Each string is one test case: "input1, input2, expected"
     // Commas separate the columns; JUnit maps them to method parameters.
@@ -84,7 +84,7 @@ public class Lab04_ParameterizedTests {
     }
 
     // ============================================================
-    // STEP 4 â€” @CsvSource with strings containing spaces
+    // STEP 4 --" @CsvSource with strings containing spaces
     //
     // Wrap values in single quotes inside the CSV string when they
     // contain commas or leading/trailing spaces.
@@ -103,7 +103,7 @@ public class Lab04_ParameterizedTests {
     }
 
     // ============================================================
-    // STEP 5 â€” @MethodSource
+    // STEP 5 --" @MethodSource
     //
     // Points to a static factory method that returns a Stream of arguments.
     // Use when test data is complex (objects, lists) or needs logic to generate.
