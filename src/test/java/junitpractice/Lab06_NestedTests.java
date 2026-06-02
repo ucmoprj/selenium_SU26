@@ -22,15 +22,15 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * Structure:
  *   Lab06_NestedTests
- *     --""--"--"-- EmptyCart
- *           --"--"--"-- isEmptyByDefault
- *           --""--"--"-- addingFirstItemMakesItNonEmpty
- *     --""--"--"-- CartWithItems
- *           --"--"--"-- totalCalculation
- *           --"--"--"-- itemCount
- *           --""--"--"-- WithDiscount
- *                 --"--"--"-- tenPercentDiscount
- *                 --""--"--"-- invalidDiscount_shouldThrow
+ *     --"------ EmptyCart
+ *           -------- isEmptyByDefault
+ *           --"------ addingFirstItemMakesItNonEmpty
+ *     --"------ CartWithItems
+ *           -------- totalCalculation
+ *           -------- itemCount
+ *           --"------ WithDiscount
+ *                 -------- tenPercentDiscount
+ *                 --"------ invalidDiscount_shouldThrow
  */
 @DisplayName("ShoppingCart")
 public class Lab06_NestedTests {
@@ -38,7 +38,7 @@ public class Lab06_NestedTests {
     ShoppingCart cart;
 
     // ============================================================
-    // STEP 1 --" Outer @BeforeEach
+    // STEP 1 -- Outer @BeforeEach
     //
     // This runs before EACH test in the outer class AND all nested classes.
     // Nested @BeforeEach methods run AFTER this one.
@@ -49,7 +49,7 @@ public class Lab06_NestedTests {
     }
 
     // ============================================================
-    // STEP 2 --" First @Nested group: empty cart behavior
+    // STEP 2 -- First @Nested group: empty cart behavior
     //
     // @Nested marks an inner class as a test group.
     // Inner class tests can access the outer class's fields (e.g., cart).
@@ -79,7 +79,7 @@ public class Lab06_NestedTests {
     }
 
     // ============================================================
-    // STEP 3 --" Second @Nested group: cart with items
+    // STEP 3 -- Second @Nested group: cart with items
     //
     // The nested @BeforeEach runs AFTER the outer @BeforeEach.
     // Use it to add items that all tests in this group need.
@@ -115,7 +115,7 @@ public class Lab06_NestedTests {
         }
 
         // ============================================================
-        // STEP 4 --" Deeply nested group: discount scenarios
+        // STEP 4 -- Deeply nested group: discount scenarios
         //
         // @Nested classes can be nested inside other @Nested classes.
         // This creates a three-level hierarchy in the test report.

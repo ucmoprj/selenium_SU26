@@ -30,7 +30,7 @@ public class Lab03_ExceptionTesting {
     }
 
     // ============================================================
-    // STEP 1 --" assertThrows: verify exception type
+    // STEP 1 -- assertThrows: verify exception type
     //
     // assertThrows(ExpectedException.class, () -> { code that should throw })
     //
@@ -47,7 +47,7 @@ public class Lab03_ExceptionTesting {
     }
 
     // ============================================================
-    // STEP 2 --" Inspect the exception message
+    // STEP 2 -- Inspect the exception message
     //
     // assertThrows returns the thrown exception object.
     // You can call getMessage() on it to verify the exact message.
@@ -62,7 +62,7 @@ public class Lab03_ExceptionTesting {
     }
 
     // ============================================================
-    // STEP 3 --" assertDoesNotThrow
+    // STEP 3 -- assertDoesNotThrow
     //
     // assertDoesNotThrow(executable)
     //   Passes when the executable completes WITHOUT throwing any exception.
@@ -74,7 +74,7 @@ public class Lab03_ExceptionTesting {
     }
 
     // ============================================================
-    // STEP 4 --" Verify state AFTER an exception
+    // STEP 4 -- Verify state AFTER an exception
     //
     // When an exception is thrown mid-operation, the object's state
     // should remain unchanged (no partial updates).
@@ -93,7 +93,7 @@ public class Lab03_ExceptionTesting {
     }
 
     // ============================================================
-    // STEP 5 --" Multiple exception scenarios
+    // STEP 5 -- Multiple exception scenarios
     //
     // Test all the ways an operation can fail.
     // Each scenario gets its own @Test method for clarity.

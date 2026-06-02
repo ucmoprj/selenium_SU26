@@ -11,9 +11,9 @@ import static org.junit.jupiter.api.Assumptions.*;
  *
  * Learning Objectives:
  *   1. Understand the difference between a failed assertion and a failed assumption
- *   2. Use assumeTrue  --" skip the test if a condition is false
- *   3. Use assumeFalse --" skip the test if a condition is true
- *   4. Use assumingThat --" run assertions only when a condition holds
+ *   2. Use assumeTrue  -- skip the test if a condition is false
+ *   3. Use assumeFalse -- skip the test if a condition is true
+ *   4. Use assumingThat -- run assertions only when a condition holds
  *
  * Key concept:
  *   - Assertion failure  --' test is MARKED AS FAILED
@@ -41,7 +41,7 @@ public class Lab07_Assumptions {
     }
 
     // ============================================================
-    // STEP 1 --" assumeTrue
+    // STEP 1 -- assumeTrue
     //
     // assumeTrue(condition)
     //   If condition is FALSE --' test is ABORTED (skipped), not failed.
@@ -60,24 +60,24 @@ public class Lab07_Assumptions {
     }
 
     // ============================================================
-    // STEP 2 --" assumeFalse
+    // STEP 2 -- assumeFalse
     //
     // assumeFalse(condition)
     //   If condition is TRUE  --' test is ABORTED (skipped).
     //   If condition is FALSE --' test continues normally.
     //
-    // Opposite of assumeTrue --" use it when you want to skip on a specific condition.
+    // Opposite of assumeTrue -- use it when you want to skip on a specific condition.
     // ============================================================
     @Test
     void skipInCIEnvironment() {
         // boolean isCI = "true".equalsIgnoreCase(System.getenv("CI"));
         // assumeFalse(isCI, "Skipped: this test is not intended for CI");
-        // System.out.println("Running locally --" performing extended checks");
+        // System.out.println("Running locally -- performing extended checks");
         // assertEquals(true, stringUtils.isPalindrome("racecar"));
     }
 
     // ============================================================
-    // STEP 3 --" assumeTrue with a meaningful message
+    // STEP 3 -- assumeTrue with a meaningful message
     //
     // The second argument is shown in the test report when skipped.
     // Always provide a reason so teammates know why a test was skipped.
@@ -93,7 +93,7 @@ public class Lab07_Assumptions {
     }
 
     // ============================================================
-    // STEP 4 --" assumingThat
+    // STEP 4 -- assumingThat
     //
     // assumingThat(condition, executable)
     //   If condition is TRUE  --' runs the executable (assertions inside).
@@ -121,7 +121,7 @@ public class Lab07_Assumptions {
     }
 
     // ============================================================
-    // STEP 5 --" Assumption vs Assertion: what's the difference?
+    // STEP 5 -- Assumption vs Assertion: what's the difference?
     //
     // Run this test to see the difference in the test report:
     //   - assumeTrue(false) --' ABORTED  (yellow/skipped in most IDEs)
@@ -133,11 +133,11 @@ public class Lab07_Assumptions {
     void demonstrateAbortedVsFailed() {
         // Uncomment ONE of the following lines at a time:
 
-        // This aborts (skips) the test --" NOT a failure:
-        // assumeTrue(false, "This assumption is false --" test is aborted");
+        // This aborts (skips) the test -- NOT a failure:
+        // assumeTrue(false, "This assumption is false -- test is aborted");
 
-        // This fails the test --" IS a failure:
-        // assertEquals(1, 2, "This assertion is wrong --" test is failed");
+        // This fails the test -- IS a failure:
+        // assertEquals(1, 2, "This assertion is wrong -- test is failed");
     }
 }
 

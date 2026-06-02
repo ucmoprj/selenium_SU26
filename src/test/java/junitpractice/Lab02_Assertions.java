@@ -9,11 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
  * Lab 02 - Assertions
  *
  * Learning Objectives:
- *   1. assertEquals / assertNotEquals --" compare expected vs actual values
- *   2. assertTrue / assertFalse       --" verify boolean conditions
- *   3. assertNull / assertNotNull     --" check for null
- *   4. assertThrows                   --" verify an exception is thrown
- *   5. assertAll                      --" group multiple assertions (all run even if one fails)
+ *   1. assertEquals / assertNotEquals -- compare expected vs actual values
+ *   2. assertTrue / assertFalse       -- verify boolean conditions
+ *   3. assertNull / assertNotNull     -- check for null
+ *   4. assertThrows                   -- verify an exception is thrown
+ *   5. assertAll                      -- group multiple assertions (all run even if one fails)
  *
  * Instructions:
  *   - Uncomment one STEP block at a time, then run the test
@@ -33,11 +33,11 @@ public class Lab02_Assertions {
     }
 
     // ============================================================
-    // STEP 1 --" assertEquals / assertNotEquals
+    // STEP 1 -- assertEquals / assertNotEquals
     //
     // assertEquals(expected, actual)
     //   Passes when expected.equals(actual).
-    //   The FIRST argument is always the expected value --" this matters
+    //   The FIRST argument is always the expected value -- this matters
     //   because failure messages say "expected <X> but was <Y>".
     //
     // assertNotEquals(unexpected, actual)
@@ -51,10 +51,10 @@ public class Lab02_Assertions {
     }
 
     // ============================================================
-    // STEP 2 --" assertTrue / assertFalse
+    // STEP 2 -- assertTrue / assertFalse
     //
-    // assertTrue(condition)  --" passes when condition is true
-    // assertFalse(condition) --" passes when condition is false
+    // assertTrue(condition)  -- passes when condition is true
+    // assertFalse(condition) -- passes when condition is false
     //
     // Use these when the result is inherently boolean.
     // ============================================================
@@ -65,10 +65,10 @@ public class Lab02_Assertions {
     }
 
     // ============================================================
-    // STEP 3 --" assertNull / assertNotNull
+    // STEP 3 -- assertNull / assertNotNull
     //
-    // assertNull(object)    --" passes when object IS null
-    // assertNotNull(object) --" passes when object is NOT null
+    // assertNull(object)    -- passes when object IS null
+    // assertNotNull(object) -- passes when object is NOT null
     //
     // Useful for checking return values and object creation.
     // ============================================================
@@ -80,10 +80,10 @@ public class Lab02_Assertions {
     }
 
     // ============================================================
-    // STEP 4 --" Custom failure messages
+    // STEP 4 -- Custom failure messages
     //
     // Every assertion accepts an optional String (or Supplier<String>)
-    // as the last argument --" shown in the failure report.
+    // as the last argument -- shown in the failure report.
     // Use a lambda () -> "..." for expensive message construction.
     // ============================================================
     @Test
@@ -94,7 +94,7 @@ public class Lab02_Assertions {
     }
 
     // ============================================================
-    // STEP 5 --" assertAll
+    // STEP 5 -- assertAll
     //
     // assertAll(executables...)
     //   Runs ALL assertions even if some fail, then reports all failures.
@@ -114,7 +114,7 @@ public class Lab02_Assertions {
     }
 
     // ============================================================
-    // STEP 6 --" assertThrows
+    // STEP 6 -- assertThrows
     //
     // assertThrows(ExceptionType.class, executable)
     //   Passes when the executable throws the expected exception type.
