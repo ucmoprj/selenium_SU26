@@ -7,3 +7,4 @@ target/
 
 # Instructor solution files — never push to GitHub
 src/test/java/practice/*_Solution_*.java
+src/test/java/junitpractice/*_Solution_*.java
